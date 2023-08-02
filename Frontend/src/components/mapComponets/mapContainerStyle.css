@@ -1,0 +1,21 @@
+.mapContainer {
+    /* boarderTop: '1px solid #ddd'; */
+    /* lineHeight: '60px';
+    backgroundColor: 'white'; */
+    position: relative;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    /* z-index: -1; */
+    align-items:flex-start
+    
+}
+
+.menu {
+    position: sticky;
+    z-index: 2;
+    align-self: flex-end;
+    margin-bottom: 5%;
+    margin-right: 5%;
+    max-height: "30vh";
+}

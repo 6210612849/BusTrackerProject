@@ -1,0 +1,936 @@
+﻿schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+type BusLocatorStatus @aws_api_key {
+  bbid: String!
+  frequency: String
+  line: String
+  status: Boolean
+}
+
+type BusLocatorStatusConnection @aws_api_key {
+  items: [BusLocatorStatus]
+  nextToken: String
+  
+}
+
+type BusStops @aws_api_key  {
+  bsid: String!
+  coordinate: [Float]
+  des: String
+  line: String
+  title: String 
+}
+
+type BusStopsConnection @aws_api_key  {
+  items: [BusStops]
+  nextToken: String 
+}
+
+type Bustracker @aws_api_key  {
+  data: AWSJSON 
+  timeStamp: String
+  uuid: Int!
+}
+
+type BustrackerConnection @aws_api_key  {
+  items: [Bustracker]
+  nextToken: String @aws_api_key @aws_cognito_user_pools
+}
+
+type HeatMap @aws_api_key {
+  heatMapData: [HeatMapData]
+  hid: String!
+  timeStamp: String
+}
+
+type HeatMapConnection @aws_api_key {
+  items: [HeatMap]
+  nextToken: String
+}
+
+type HeatMapData @aws_api_key {
+  lat: String
+  lng: String
+  weight: String
+}
+
+type HeatMapDataList @aws_api_key {
+  heatMapData: [HeatMapData]
+}
+
+type HotZone @aws_api_key {
+  hzid: String!
+  lat: Float!
+  long: Float!
+  timeStamp: String!
+}
+
+type HotZoneConnection @aws_api_key {
+  items: [HotZone]
+  nextToken: String
+}
+
+type ListLineBusStops @aws_api_key {
+  lid: String!
+  line: String
+  lineData: AWSJSON
+}
+
+type ListLineBusStopsConnection @aws_api_key {
+  items: [ListLineBusStops]
+  nextToken: String
+}
+
+type LocatorProgress @aws_api_key {
+  isActive: Boolean
+  lid: String!
+  lineID: String
+  progress: AWSJSON
+}
+
+type LocatorProgressConnection @aws_api_key {
+  items: [LocatorProgress]
+  nextToken: String
+}
+
+type LogBusTracker @aws_api_key {
+  bsid: String
+  lat: String
+  llid: String!
+  lng: String
+  timeStamp: String
+}
+
+type LogBusTrackerConnection @aws_api_key {
+  items: [LogBusTracker]
+  nextToken: String
+}
+
+type MangaDashboard {
+  access: Boolean
+  desciption: String
+  episode: Int
+  picture: String
+  statusofmanga: String
+  title: String
+  umid: Int!
+}
+
+type MangaDashboardConnection {
+  items: [MangaDashboard]
+  nextToken: String
+}
+
+type ModelNoteConnection @aws_api_key {
+  items: [Note]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+type ModelTaskConnection @aws_api_key {
+  items: [Task]!
+  nextToken: String
+  startedAt: AWSTimestamp @aws_api_key
+}
+
+type Mutation {
+  createBusLocatorStatus(input: CreateBusLocatorStatusInput!): BusLocatorStatus @aws_api_key
+  createBusStops(input: CreateBusStopsInput!): BusStops @aws_api_key
+  createBustracker(input: CreateBustrackerInput!): Bustracker @aws_api_key
+  createHeatMap(input: CreateHeatMapInput!): HeatMap @aws_api_key
+  createHotZone(input: CreateHotZoneInput!): HotZone @aws_api_key
+  createListLineBusStops(input: CreateListLineBusStopsInput!): ListLineBusStops @aws_api_key
+  createLocatorProgress(input: CreateLocatorProgressInput!): LocatorProgress @aws_api_key
+  createLogBusTracker(input: CreateLogBusTrackerInput!): LogBusTracker @aws_api_key
+  createMangaDashboard(input: CreateMangaDashboardInput!): MangaDashboard @aws_api_key
+  createNote(condition: ModelNoteConditionInput, input: CreateNoteInput!): Note @aws_api_key
+  createSession(input: CreateSessionInput!): Session @aws_api_key
+  createStatusAPI(input: CreateStatusAPIInput!): StatusAPI @aws_api_key
+  createTask(condition: ModelTaskConditionInput, input: CreateTaskInput!): Task @aws_api_key
+  createVirtualBusTracker(input: CreateVirtualBusTrackerInput!): VirtualBusTracker @aws_api_key
+  deleteBusLocatorStatus(input: DeleteBusLocatorStatusInput!): BusLocatorStatus @aws_api_key
+  deleteBusStops(input: DeleteBusStopsInput!): BusStops @aws_api_key
+  deleteBustracker(input: DeleteBustrackerInput!): Bustracker @aws_api_key
+  deleteHeatMap(input: DeleteHeatMapInput!): HeatMap @aws_api_key
+  deleteHotZone(input: DeleteHotZoneInput!): HotZone @aws_api_key
+  deleteListLineBusStops(input: DeleteListLineBusStopsInput!): ListLineBusStops @aws_api_key
+  deleteLocatorProgress(input: DeleteLocatorProgressInput!): LocatorProgress @aws_api_key
+  deleteLogBusTracker(input: DeleteLogBusTrackerInput!): LogBusTracker @aws_api_key
+  deleteMangaDashboard(input: DeleteMangaDashboardInput!): MangaDashboard @aws_api_key
+  deleteNote(condition: ModelNoteConditionInput, input: DeleteNoteInput!): Note @aws_api_key
+  deleteSession(input: DeleteSessionInput!): Session @aws_api_key
+  deleteStatusAPI(input: DeleteStatusAPIInput!): StatusAPI @aws_api_key
+  deleteTask(condition: ModelTaskConditionInput, input: DeleteTaskInput!): Task @aws_api_key
+  deleteVirtualBusTracker(input: DeleteVirtualBusTrackerInput!): VirtualBusTracker @aws_api_key
+  updateBusLocatorStatus(input: UpdateBusLocatorStatusInput!): BusLocatorStatus @aws_api_key
+  updateBusStops(input: UpdateBusStopsInput!): BusStops @aws_api_key
+  updateBustracker(input: UpdateBustrackerInput!): Bustracker @aws_api_key
+  updateHeatMap(input: UpdateHeatMapInput!): HeatMap @aws_api_key
+  updateHotZone(input: UpdateHotZoneInput!): HotZone @aws_api_key
+  updateListLineBusStops(input: UpdateListLineBusStopsInput!): ListLineBusStops @aws_api_key
+  updateLocatorProgress(input: UpdateLocatorProgressInput!): LocatorProgress @aws_api_key
+  updateLogBusTracker(input: UpdateLogBusTrackerInput!): LogBusTracker @aws_api_key
+  updateMangaDashboard(input: UpdateMangaDashboardInput!): MangaDashboard @aws_api_key
+  updateNote(condition: ModelNoteConditionInput, input: UpdateNoteInput!): Note @aws_api_key
+  updateSession(input: UpdateSessionInput!): Session @aws_api_key
+  updateStatusAPI(input: UpdateStatusAPIInput!): StatusAPI @aws_api_key
+  updateTask(condition: ModelTaskConditionInput, input: UpdateTaskInput!): Task @aws_api_key
+  updateVirtualBusTracker(input: UpdateVirtualBusTrackerInput!): VirtualBusTracker @aws_api_key
+}
+
+type Note @aws_api_key {
+  _deleted: Boolean
+  _version: Int!
+  content: String!
+  id: ID!
+}
+
+type Query {
+  getBusLocatorStatus(bbid: String!): BusLocatorStatus @aws_api_key
+  getBusStops(bsid: String!): BusStops
+  getBustracker(uuid: Int!): Bustracker @aws_api_key
+  getHeatMap(hid: String!): HeatMap @aws_api_key
+  getHotZone(hzid: String!): HotZone @aws_api_key
+  getListLineBusStops(lid: String!): ListLineBusStops @aws_api_key
+  getLocatorProgress(lid: String!): LocatorProgress @aws_api_key
+  getLogBusTracker(llid: String!): LogBusTracker @aws_api_key
+  getMangaDashboard(umid: Int!): MangaDashboard
+  getNote(id: ID!): Note @aws_api_key
+  getSession(client: String!, sskey: String!): Session @aws_api_key
+  getStatusAPI(apiid: String!): StatusAPI @aws_api_key
+  getTask(id: ID!): Task @aws_api_key
+  getVirtualBusTracker(bbid: String!, timeStamp: String!): VirtualBusTracker @aws_api_key
+  listBusLocatorStatuses(filter: TableBusLocatorStatusFilterInput, limit: Int, nextToken: String): BusLocatorStatusConnection @aws_api_key
+  listBusStops(filter: TableBusStopsFilterInput, limit: Int, nextToken: String): BusStopsConnection @aws_api_key @aws_cognito_user_pools
+  listBustrackers(filter: TableBustrackerFilterInput, limit: Int, nextToken: String): BustrackerConnection @aws_api_key @aws_cognito_user_pools
+  listHeatMaps(filter: TableHeatMapFilterInput, limit: Int, nextToken: String): HeatMapConnection @aws_api_key
+  listHotZones(filter: TableHotZoneFilterInput, limit: Int, nextToken: String): HotZoneConnection @aws_api_key
+  listListLineBusStops(filter: TableListLineBusStopsFilterInput, limit: Int, nextToken: String): ListLineBusStopsConnection @aws_api_key
+  listLocatorProgresses(filter: TableLocatorProgressFilterInput, limit: Int, nextToken: String): LocatorProgressConnection @aws_api_key
+  listLogBusTrackers(filter: TableLogBusTrackerFilterInput, limit: Int, nextToken: String): LogBusTrackerConnection @aws_api_key
+  listMangaDashboards(filter: TableMangaDashboardFilterInput, limit: Int, nextToken: String): MangaDashboardConnection
+  listNotes(filter: ModelNoteFilterInput, limit: Int, nextToken: String): ModelNoteConnection @aws_api_key
+  listSessions(filter: TableSessionFilterInput, limit: Int, nextToken: String): SessionConnection @aws_api_key
+  listStatusAPIS(filter: TableStatusAPIFilterInput, limit: Int, nextToken: String): StatusAPIConnection @aws_api_key
+  listTasks(filter: ModelTaskFilterInput, limit: Int, nextToken: String): ModelTaskConnection @aws_api_key
+  listVirtualBusTrackers(filter: TableVirtualBusTrackerFilterInput, limit: Int, nextToken: String): VirtualBusTrackerConnection @aws_api_key
+  syncNotes(filter: ModelNoteFilterInput, lastSync: AWSTimestamp, limit: Int, nextToken: String): ModelNoteConnection
+  syncTasks(filter: ModelTaskFilterInput, lastSync: AWSTimestamp, limit: Int, nextToken: String): ModelTaskConnection @aws_api_key
+}
+
+type Session @aws_api_key  {
+  client: String! 
+  created: Int!
+  expired: Int!
+  ip: String
+  sskey: String!
+}
+
+type SessionConnection @aws_api_key {
+  items: [Session]
+  nextToken: String
+}
+
+type StatusAPI @aws_api_key {
+  apiid: String!
+  des: String
+  isAvalible: Boolean
+  usedAll: Int
+  usedDay: Int
+  usedMonth: Int
+}
+
+type StatusAPIConnection @aws_api_key {
+  items: [StatusAPI]
+  nextToken: String
+}
+
+type Subscription {
+  onCreateBusLocatorStatus(bbid: String, frequency: String, line: String, status: Boolean): BusLocatorStatus @aws_api_key @aws_subscribe(mutations : ["createBusLocatorStatus"])
+  onCreateBusStops(bsid: String, coordinate: [Int], des: String, line: String, title: String): BusStops @aws_subscribe(mutations : ["createBusStops"])
+  onCreateBustracker(data: AWSJSON, timeStamp: String, uuid: Int): Bustracker @aws_subscribe(mutations : ["createBustracker"])
+  onCreateHeatMap(heatMapData: HeatMapDataInput, hid: String, timeStamp: String): HeatMap @aws_api_key @aws_subscribe(mutations : ["createHeatMap"])
+  onCreateHotZone(hzid: String, lat: Float, long: Float, timeStamp: String): HotZone @aws_api_key @aws_subscribe(mutations : ["createHotZone"])
+  onCreateListLineBusStops(lid: String, line: String, lineData: AWSJSON): ListLineBusStops @aws_api_key @aws_subscribe(mutations : ["createListLineBusStops"])
+  onCreateLocatorProgress(isActive: Boolean, lid: String, lineID: String, progress: AWSJSON): LocatorProgress @aws_api_key @aws_subscribe(mutations : ["createLocatorProgress"])
+  onCreateLogBusTracker(bsid: String, lat: String, llid: String, lng: String, timeStamp: String): LogBusTracker @aws_api_key @aws_subscribe(mutations : ["createLogBusTracker"])
+  onCreateMangaDashboard(access: Boolean, desciption: String, episode: Int, picture: String, umid: Int): MangaDashboard @aws_subscribe(mutations : ["createMangaDashboard"])
+  onCreateNote(filter: ModelSubscriptionNoteFilterInput): Note @aws_api_key @aws_subscribe(mutations : ["createNote"])
+  onCreateSession(client: String, created: Int, expired: Int, ip: String, sskey: String): Session @aws_api_key @aws_subscribe(mutations : ["createSession"])
+  onCreateStatusAPI(apiid: String, des: String, isAvalible: Boolean, usedAll: Int, usedDay: Int): StatusAPI @aws_api_key @aws_subscribe(mutations : ["createStatusAPI"])
+  onCreateTask(filter: ModelSubscriptionTaskFilterInput): Task @aws_api_key @aws_subscribe(mutations : ["createTask"])
+  onCreateVirtualBusTracker(bbid: String, lat: Float, lng: Float, timeStamp: String): VirtualBusTracker @aws_api_key @aws_subscribe(mutations : ["createVirtualBusTracker"])
+  onDeleteBusLocatorStatus(bbid: String, frequency: String, line: String, status: Boolean): BusLocatorStatus @aws_api_key @aws_subscribe(mutations : ["deleteBusLocatorStatus"])
+  onDeleteBusStops(bsid: String, coordinate: [Int], des: String, line: String, title: String): BusStops @aws_subscribe(mutations : ["deleteBusStops"])
+  onDeleteBustracker(data: AWSJSON, timeStamp: String, uuid: Int): Bustracker @aws_subscribe(mutations : ["deleteBustracker"])
+  onDeleteHeatMap(heatMapData: HeatMapDataInput, hid: String, timeStamp: String): HeatMap @aws_api_key @aws_subscribe(mutations : ["deleteHeatMap"])
+  onDeleteHotZone(hzid: String, lat: Float, long: Float, timeStamp: String): HotZone @aws_api_key @aws_subscribe(mutations : ["deleteHotZone"])
+  onDeleteListLineBusStops(lid: String, line: String, lineData: AWSJSON): ListLineBusStops @aws_api_key @aws_subscribe(mutations : ["deleteListLineBusStops"])
+  onDeleteLocatorProgress(isActive: Boolean, lid: String, lineID: String, progress: AWSJSON): LocatorProgress @aws_api_key @aws_subscribe(mutations : ["deleteLocatorProgress"])
+  onDeleteLogBusTracker(bsid: String, lat: String, llid: String, lng: String, timeStamp: String): LogBusTracker @aws_api_key @aws_subscribe(mutations : ["deleteLogBusTracker"])
+  onDeleteMangaDashboard(access: Boolean, desciption: String, episode: Int, picture: String, umid: Int): MangaDashboard @aws_subscribe(mutations : ["deleteMangaDashboard"])
+  onDeleteNote(filter: ModelSubscriptionNoteFilterInput): Note @aws_subscribe(mutations : ["deleteNote"])
+  onDeleteSession(client: String, created: Int, expired: Int, ip: String, sskey: String): Session @aws_api_key @aws_subscribe(mutations : ["deleteSession"])
+  onDeleteStatusAPI(apiid: String, des: String, isAvalible: Boolean, usedAll: Int, usedDay: Int): StatusAPI @aws_api_key @aws_subscribe(mutations : ["deleteStatusAPI"])
+  onDeleteTask(filter: ModelSubscriptionTaskFilterInput): Task @aws_api_key @aws_subscribe(mutations : ["deleteTask"])
+  onDeleteVirtualBusTracker(bbid: String, lat: Float, lng: Float, timeStamp: String): VirtualBusTracker @aws_api_key @aws_subscribe(mutations : ["deleteVirtualBusTracker"])
+  onUpdateBusLocatorStatus(bbid: String, frequency: String, line: String, status: Boolean): BusLocatorStatus @aws_api_key @aws_subscribe(mutations : ["updateBusLocatorStatus"])
+  onUpdateBusStops(bsid: String, coordinate: [Int], des: String, line: String, title: String): BusStops @aws_subscribe(mutations : ["updateBusStops"])
+  onUpdateBustracker(data: AWSJSON, timeStamp: String, uuid: Int): Bustracker @aws_subscribe(mutations : ["updateBustracker"])
+  onUpdateHeatMap(heatMapData: HeatMapDataInput, hid: String, timeStamp: String): HeatMap @aws_api_key @aws_subscribe(mutations : ["updateHeatMap"])
+  onUpdateHotZone(hzid: String, lat: Float, long: Float, timeStamp: String): HotZone @aws_api_key @aws_subscribe(mutations : ["updateHotZone"])
+  onUpdateListLineBusStops(lid: String, line: String, lineData: AWSJSON): ListLineBusStops @aws_api_key @aws_subscribe(mutations : ["updateListLineBusStops"])
+  onUpdateLocatorProgress(isActive: Boolean, lid: String, lineID: String, progress: AWSJSON): LocatorProgress @aws_api_key @aws_subscribe(mutations : ["updateLocatorProgress"])
+  onUpdateLogBusTracker(bsid: String, lat: String, llid: String, lng: String, timeStamp: String): LogBusTracker @aws_api_key @aws_subscribe(mutations : ["updateLogBusTracker"])
+  onUpdateMangaDashboard(access: Boolean, desciption: String, episode: Int, picture: String, umid: Int): MangaDashboard @aws_subscribe(mutations : ["updateMangaDashboard"])
+  onUpdateNote(filter: ModelSubscriptionNoteFilterInput): Note @aws_api_key @aws_subscribe(mutations : ["updateNote"])
+  onUpdateSession(client: String, created: Int, expired: Int, ip: String, sskey: String): Session @aws_api_key @aws_subscribe(mutations : ["updateSession"])
+  onUpdateStatusAPI(apiid: String, des: String, isAvalible: Boolean, usedAll: Int, usedDay: Int): StatusAPI @aws_api_key @aws_subscribe(mutations : ["updateStatusAPI"])
+  onUpdateTask(filter: ModelSubscriptionTaskFilterInput): Task @aws_api_key @aws_subscribe(mutations : ["updateTask"])
+  onUpdateVirtualBusTracker(bbid: String, lat: Float, lng: Float, timeStamp: String): VirtualBusTracker @aws_api_key @aws_subscribe(mutations : ["updateVirtualBusTracker"])
+}
+
+type Task @aws_api_key @aws_cognito_user_pools {
+  _deleted: Boolean
+  _version: Int!
+  description: String
+  id: ID!
+  status: String
+  test: String!
+  title: String!
+}
+
+type VirtualBusTracker @aws_api_key {
+  bbid: String!
+  lat: Float
+  lng: Float
+  timeStamp: String!
+}
+
+type VirtualBusTrackerConnection @aws_api_key {
+  items: [VirtualBusTracker]
+  nextToken: String
+}
+
+enum ModelAttributeTypes {
+  _null
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+input CreateBusLocatorStatusInput {
+  bbid: String!
+  frequency: String
+  line: String
+  status: Boolean
+}
+
+input CreateBusStopsInput {
+  bsid: String!
+  coordinate: [Int]
+  des: String
+  line: String
+  title: String
+}
+
+input CreateBustrackerInput {
+  data: AWSJSON
+  timeStamp: String
+  uuid: Int!
+}
+
+input CreateHeatMapInput {
+  heatMapData: [HeatMapDataInput]
+  hid: String!
+  timeStamp: String
+}
+
+input CreateHotZoneInput {
+  hzid: String!
+  lat: Float!
+  long: Float!
+  timeStamp: String!
+}
+
+input CreateListLineBusStopsInput {
+  lid: String!
+  line: String
+  lineData: AWSJSON
+}
+
+input CreateLocatorProgressInput {
+  isActive: Boolean
+  lid: String!
+  lineID: String
+  progress: AWSJSON
+}
+
+input CreateLogBusTrackerInput {
+  bsid: String
+  lat: String
+  llid: String!
+  lng: String
+  timeStamp: String
+}
+
+input CreateMangaDashboardInput {
+  access: Boolean
+  desciption: String
+  episode: Int
+  picture: String
+  statusofmanga: String
+  title: String
+  umid: Int!
+}
+
+input CreateNoteInput {
+  _version: Int
+  content: String!
+  id: ID
+}
+
+input CreateSessionInput {
+  client: String!
+  created: Int!
+  expired: Int!
+  ip: String
+  sskey: String!
+}
+
+input CreateStatusAPIInput {
+  apiid: String!
+  des: String
+  isAvalible: Boolean
+  usedAll: Int
+  usedDay: Int
+  usedMonth: Int
+}
+
+input CreateTaskInput {
+  _version: Int
+  desciption: String
+  id: ID
+  status: String
+  test: String!
+  title: String!
+}
+
+input CreateVirtualBusTrackerInput {
+  bbid: String!
+  lat: Float
+  lng: Float
+  timeStamp: String!
+}
+
+input DeleteBusLocatorStatusInput {
+  bbid: String!
+}
+
+input DeleteBusStopsInput {
+  bsid: String!
+}
+
+input DeleteBustrackerInput {
+  uuid: Int!
+}
+
+input DeleteHeatMapInput {
+  hid: String!
+}
+
+input DeleteHotZoneInput {
+  hzid: String!
+}
+
+input DeleteListLineBusStopsInput {
+  lid: String!
+}
+
+input DeleteLocatorProgressInput {
+  lid: String!
+}
+
+input DeleteLogBusTrackerInput {
+  llid: String!
+}
+
+input DeleteMangaDashboardInput {
+  umid: Int!
+}
+
+input DeleteNoteInput {
+  _version: Int
+  id: ID!
+}
+
+input DeleteSessionInput {
+  client: String!
+  sskey: String!
+}
+
+input DeleteStatusAPIInput {
+  apiid: String!
+}
+
+input DeleteTaskInput {
+  _version: Int
+  id: ID!
+}
+
+input DeleteVirtualBusTrackerInput {
+  bbid: String!
+  timeStamp: String!
+}
+
+input HeatMapDataInput {
+  lat: String
+  lng: String
+  weight: String
+}
+
+input ModelBooleanInput {
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  eq: Boolean
+  ne: Boolean
+}
+
+input ModelFloatInput {
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  between: [Float]
+  eq: Float
+  ge: Float
+  gt: Float
+  le: Float
+  lt: Float
+  ne: Float
+}
+
+input ModelIDInput {
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  between: [Int]
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+}
+
+input ModelNoteConditionInput {
+  and: [ModelNoteConditionInput]
+  content: ModelStringInput
+  not: ModelNoteConditionInput
+  or: [ModelNoteConditionInput]
+}
+
+input ModelNoteFilterInput {
+  and: [ModelNoteFilterInput]
+  content: ModelStringInput
+  id: ModelIDInput
+  not: ModelNoteFilterInput
+  or: [ModelNoteFilterInput]
+}
+
+input ModelSizeInput {
+  between: [Int]
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+}
+
+input ModelStringInput {
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+  size: ModelSizeInput
+}
+
+input ModelSubscriptionBooleanInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input ModelSubscriptionFloatInput {
+  between: [Float]
+  eq: Float
+  ge: Float
+  gt: Float
+  in: [Float]
+  le: Float
+  lt: Float
+  ne: Float
+  notIn: [Float]
+}
+
+input ModelSubscriptionIDInput {
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  in: [ID]
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+  notIn: [ID]
+}
+
+input ModelSubscriptionIntInput {
+  between: [Int]
+  eq: Int
+  ge: Int
+  gt: Int
+  in: [Int]
+  le: Int
+  lt: Int
+  ne: Int
+  notIn: [Int]
+}
+
+input ModelSubscriptionNoteFilterInput {
+  and: [ModelSubscriptionNoteFilterInput]
+  content: ModelSubscriptionStringInput
+  id: ModelSubscriptionIDInput
+  or: [ModelSubscriptionNoteFilterInput]
+}
+
+input ModelSubscriptionStringInput {
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  in: [String]
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+  notIn: [String]
+}
+
+input ModelSubscriptionTaskFilterInput {
+  and: [ModelSubscriptionTaskFilterInput]
+  description: ModelSubscriptionStringInput
+  id: ModelSubscriptionIDInput
+  or: [ModelSubscriptionTaskFilterInput]
+  status: ModelSubscriptionStringInput
+  test: ModelSubscriptionStringInput
+  title: ModelSubscriptionStringInput
+}
+
+input ModelTaskConditionInput {
+  and: [ModelTaskConditionInput]
+  description: ModelStringInput
+  not: ModelTaskConditionInput
+  or: [ModelTaskConditionInput]
+  status: ModelStringInput
+  test: ModelStringInput
+  title: ModelStringInput
+}
+
+input ModelTaskFilterInput {
+  and: [ModelTaskFilterInput]
+  description: ModelStringInput
+  id: ModelIDInput
+  not: ModelTaskFilterInput
+  or: [ModelTaskFilterInput]
+  status: ModelStringInput
+  test: ModelStringInput
+  title: ModelStringInput
+}
+
+input TableBooleanFilterInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input TableBusLocatorStatusFilterInput {
+  bbid: TableStringFilterInput
+  frequency: TableStringFilterInput
+  line: TableStringFilterInput
+  status: TableBooleanFilterInput
+}
+
+input TableBusStopsFilterInput {
+  bsid: TableStringFilterInput
+  coordinate: TableIntFilterInput
+  des: TableStringFilterInput
+  line: TableStringFilterInput
+  title: TableStringFilterInput
+}
+
+input TableBustrackerFilterInput {
+  timeStamp: TableStringFilterInput
+  uuid: TableIntFilterInput
+}
+
+input TableFloatFilterInput {
+  between: [Float]
+  contains: Float
+  eq: Float
+  ge: Float
+  gt: Float
+  le: Float
+  lt: Float
+  ne: Float
+  notContains: Float
+}
+
+input TableHeatMapFilterInput {
+  heatMapData: TableStringFilterInput
+  hid: TableStringFilterInput
+  timeStamp: TableStringFilterInput
+}
+
+input TableHotZoneFilterInput {
+  hzid: TableStringFilterInput
+  lat: TableFloatFilterInput
+  long: TableFloatFilterInput
+  timeStamp: TableStringFilterInput
+}
+
+input TableIDFilterInput {
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+}
+
+input TableIntFilterInput {
+  between: [Int]
+  contains: Int
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+  notContains: Int
+}
+
+input TableListLineBusStopsFilterInput {
+  lid: TableStringFilterInput
+  line: TableStringFilterInput
+  lineData: TableStringFilterInput
+}
+
+input TableLocatorProgressFilterInput {
+  isActive: TableBooleanFilterInput
+  lid: TableStringFilterInput
+  lineID: TableStringFilterInput
+}
+
+input TableLogBusTrackerFilterInput {
+  bsid: TableStringFilterInput
+  lat: TableStringFilterInput
+  llid: TableStringFilterInput
+  lng: TableStringFilterInput
+  timeStamp: TableStringFilterInput
+}
+
+input TableMangaDashboardFilterInput {
+  access: TableBooleanFilterInput
+  desciption: TableStringFilterInput
+  episode: TableIntFilterInput
+  picture: TableStringFilterInput
+  statusofmanga: TableStringFilterInput
+  title: TableStringFilterInput
+  umid: TableIntFilterInput
+}
+
+input TableSessionFilterInput {
+  client: TableStringFilterInput
+  created: TableIntFilterInput
+  expired: TableIntFilterInput
+  ip: TableStringFilterInput
+  sskey: TableStringFilterInput
+}
+
+input TableStatusAPIFilterInput {
+  apiid: TableStringFilterInput
+  des: TableStringFilterInput
+  isAvalible: TableBooleanFilterInput
+  usedAll: TableIntFilterInput
+  usedDay: TableIntFilterInput
+  usedMonth: TableIntFilterInput
+}
+
+input TableStringFilterInput {
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+}
+
+input TableVirtualBusTrackerFilterInput {
+  bbid: TableStringFilterInput
+  lat: TableFloatFilterInput
+  lng: TableFloatFilterInput
+  timeStamp: TableStringFilterInput
+}
+
+input UpdateBusLocatorStatusInput {
+  bbid: String!
+  frequency: String
+  line: String
+  status: Boolean
+}
+
+input UpdateBusStopsInput {
+  bsid: String!
+  coordinate: [Int]
+  des: String
+  line: String
+  title: String
+}
+
+input UpdateBustrackerInput {
+  data: AWSJSON
+  timeStamp: String
+  uuid: Int!
+}
+
+input UpdateHeatMapInput {
+  heatMapData: String
+  hid: String!
+  timeStamp: String
+}
+
+input UpdateHotZoneInput {
+  hzid: String!
+  lat: Float
+  long: Float
+  timeStamp: String
+}
+
+input UpdateListLineBusStopsInput {
+  lid: String!
+  line: String
+  lineData: AWSJSON
+}
+
+input UpdateLocatorProgressInput {
+  isActive: Boolean
+  lid: String!
+  lineID: String
+  progress: AWSJSON
+}
+
+input UpdateLogBusTrackerInput {
+  bsid: String
+  lat: String
+  llid: String!
+  lng: String
+  timeStamp: String
+}
+
+input UpdateMangaDashboardInput {
+  access: Boolean
+  desciption: String
+  episode: Int
+  picture: String
+  statusofmanga: String
+  title: String
+  umid: Int!
+}
+
+input UpdateNoteInput {
+  _version: Int
+  content: String
+  id: ID!
+}
+
+input UpdateSessionInput {
+  client: String!
+  created: Int
+  expired: Int
+  ip: String
+  sskey: String!
+}
+
+input UpdateStatusAPIInput {
+  apiid: String!
+  des: String
+  isAvalible: Boolean
+  usedAll: Int
+  usedDay: Int
+  usedMonth: Int
+}
+
+input UpdateTaskInput {
+  _version: Int
+  description: String
+  id: ID!
+  status: String
+  test: String
+  title: String
+}
+
+input UpdateVirtualBusTrackerInput {
+  bbid: String!
+  lat: Float
+  lng: Float
+  timeStamp: String!
+}

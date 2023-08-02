@@ -1,0 +1,555 @@
+﻿schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+type BusStops @aws_api_key @aws_cognito_user_pools {
+  bsid: String!
+  coordinate: [Float]
+  des: String
+  line: String
+  title: String @aws_api_key @aws_cognito_user_pools
+}
+
+type BusStopsConnection @aws_api_key @aws_cognito_user_pools {
+  items: [BusStops]
+  nextToken: String @aws_api_key @aws_cognito_user_pools
+}
+
+type Bustracker @aws_api_key @aws_cognito_user_pools {
+  data: AWSJSON @aws_api_key @aws_cognito_user_pools
+  timeStamp: String
+  uuid: Int!
+}
+
+type BustrackerConnection @aws_api_key @aws_cognito_user_pools {
+  items: [Bustracker]
+  nextToken: String @aws_api_key @aws_cognito_user_pools
+}
+
+type MangaDashboard {
+  access: Boolean
+  desciption: String
+  episode: Int
+  picture: String
+  statusofmanga: String
+  title: String
+  umid: Int!
+}
+
+type MangaDashboardConnection {
+  items: [MangaDashboard]
+  nextToken: String
+}
+
+type ModelNoteConnection @aws_api_key {
+  items: [Note]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+type ModelTaskConnection @aws_api_key {
+  items: [Task]!
+  nextToken: String
+  startedAt: AWSTimestamp @aws_api_key
+}
+
+type Mutation {
+  createBusStops(input: CreateBusStopsInput!): BusStops @aws_api_key
+  createBustracker(input: CreateBustrackerInput!): Bustracker @aws_api_key
+  createMangaDashboard(input: CreateMangaDashboardInput!): MangaDashboard @aws_api_key
+  createNote(condition: ModelNoteConditionInput, input: CreateNoteInput!): Note @aws_api_key
+  createSession(input: CreateSessionInput!): Session @aws_api_key
+  createTask(condition: ModelTaskConditionInput, input: CreateTaskInput!): Task @aws_api_key
+  deleteBusStops(input: DeleteBusStopsInput!): BusStops @aws_api_key
+  deleteBustracker(input: DeleteBustrackerInput!): Bustracker @aws_api_key
+  deleteMangaDashboard(input: DeleteMangaDashboardInput!): MangaDashboard @aws_api_key
+  deleteNote(condition: ModelNoteConditionInput, input: DeleteNoteInput!): Note @aws_api_key
+  deleteSession(input: DeleteSessionInput!): Session @aws_api_key
+  deleteTask(condition: ModelTaskConditionInput, input: DeleteTaskInput!): Task @aws_api_key
+  updateBusStops(input: UpdateBusStopsInput!): BusStops @aws_api_key
+  updateBustracker(input: UpdateBustrackerInput!): Bustracker @aws_api_key
+  updateMangaDashboard(input: UpdateMangaDashboardInput!): MangaDashboard @aws_api_key
+  updateNote(condition: ModelNoteConditionInput, input: UpdateNoteInput!): Note @aws_api_key
+  updateSession(input: UpdateSessionInput!): Session @aws_api_key
+  updateTask(condition: ModelTaskConditionInput, input: UpdateTaskInput!): Task @aws_api_key
+}
+
+type Note @aws_api_key {
+  _deleted: Boolean
+  _version: Int!
+  content: String!
+  id: ID!
+}
+
+type Query {
+  getBusStops(bsid: String!): BusStops
+  getBustracker(uuid: Int!): Bustracker
+  getMangaDashboard(umid: Int!): MangaDashboard
+  getNote(id: ID!): Note @aws_api_key
+  getSession(client: String!, sskey: String!): Session @aws_api_key
+  getTask(id: ID!): Task @aws_api_key
+  listBusStops(filter: TableBusStopsFilterInput, limit: Int, nextToken: String): BusStopsConnection @aws_api_key @aws_cognito_user_pools
+  listBustrackers(filter: TableBustrackerFilterInput, limit: Int, nextToken: String): BustrackerConnection @aws_api_key @aws_cognito_user_pools
+  listMangaDashboards(filter: TableMangaDashboardFilterInput, limit: Int, nextToken: String): MangaDashboardConnection
+  listNotes(filter: ModelNoteFilterInput, limit: Int, nextToken: String): ModelNoteConnection @aws_api_key
+  listSessions(filter: TableSessionFilterInput, limit: Int, nextToken: String): SessionConnection @aws_api_key
+  listTasks(filter: ModelTaskFilterInput, limit: Int, nextToken: String): ModelTaskConnection @aws_api_key
+  syncNotes(filter: ModelNoteFilterInput, lastSync: AWSTimestamp, limit: Int, nextToken: String): ModelNoteConnection
+  syncTasks(filter: ModelTaskFilterInput, lastSync: AWSTimestamp, limit: Int, nextToken: String): ModelTaskConnection @aws_api_key
+}
+
+type Session @aws_api_key {
+  client: String!
+  created: Int!
+  expired: Int!
+  ip: String
+  sskey: String!
+}
+
+type SessionConnection @aws_api_key {
+  items: [Session]
+  nextToken: String
+}
+
+type Subscription {
+  onCreateBusStops(bsid: String, coordinate: [Int], des: String, line: String, title: String): BusStops @aws_subscribe(mutations : ["createBusStops"])
+  onCreateBustracker(data: AWSJSON, timeStamp: String, uuid: Int): Bustracker @aws_subscribe(mutations : ["createBustracker"])
+  onCreateMangaDashboard(access: Boolean, desciption: String, episode: Int, picture: String, umid: Int): MangaDashboard @aws_subscribe(mutations : ["createMangaDashboard"])
+  onCreateNote(filter: ModelSubscriptionNoteFilterInput): Note @aws_api_key @aws_subscribe(mutations : ["createNote"])
+  onCreateSession(client: String, created: Int, expired: Int, ip: String, sskey: String): Session @aws_api_key @aws_subscribe(mutations : ["createSession"])
+  onCreateTask(filter: ModelSubscriptionTaskFilterInput): Task @aws_api_key @aws_subscribe(mutations : ["createTask"])
+  onDeleteBusStops(bsid: String, coordinate: [Int], des: String, line: String, title: String): BusStops @aws_subscribe(mutations : ["deleteBusStops"])
+  onDeleteBustracker(data: AWSJSON, timeStamp: String, uuid: Int): Bustracker @aws_subscribe(mutations : ["deleteBustracker"])
+  onDeleteMangaDashboard(access: Boolean, desciption: String, episode: Int, picture: String, umid: Int): MangaDashboard @aws_subscribe(mutations : ["deleteMangaDashboard"])
+  onDeleteNote(filter: ModelSubscriptionNoteFilterInput): Note @aws_subscribe(mutations : ["deleteNote"])
+  onDeleteSession(client: String, created: Int, expired: Int, ip: String, sskey: String): Session @aws_api_key @aws_subscribe(mutations : ["deleteSession"])
+  onDeleteTask(filter: ModelSubscriptionTaskFilterInput): Task @aws_api_key @aws_subscribe(mutations : ["deleteTask"])
+  onUpdateBusStops(bsid: String, coordinate: [Int], des: String, line: String, title: String): BusStops @aws_subscribe(mutations : ["updateBusStops"])
+  onUpdateBustracker(data: AWSJSON, timeStamp: String, uuid: Int): Bustracker @aws_subscribe(mutations : ["updateBustracker"])
+  onUpdateMangaDashboard(access: Boolean, desciption: String, episode: Int, picture: String, umid: Int): MangaDashboard @aws_subscribe(mutations : ["updateMangaDashboard"])
+  onUpdateNote(filter: ModelSubscriptionNoteFilterInput): Note @aws_api_key @aws_subscribe(mutations : ["updateNote"])
+  onUpdateSession(client: String, created: Int, expired: Int, ip: String, sskey: String): Session @aws_api_key @aws_subscribe(mutations : ["updateSession"])
+  onUpdateTask(filter: ModelSubscriptionTaskFilterInput): Task @aws_api_key @aws_subscribe(mutations : ["updateTask"])
+}
+
+type Task @aws_api_key @aws_cognito_user_pools {
+  _deleted: Boolean
+  _version: Int!
+  description: String
+  id: ID!
+  status: String
+  test: String!
+  title: String!
+}
+
+enum ModelAttributeTypes {
+  _null
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+input CreateBusStopsInput {
+  bsid: String!
+  coordinate: [Int]
+  des: String
+  line: String
+  title: String
+}
+
+input CreateBustrackerInput {
+  data: AWSJSON
+  timeStamp: String
+  uuid: Int!
+}
+
+input CreateMangaDashboardInput {
+  access: Boolean
+  desciption: String
+  episode: Int
+  picture: String
+  statusofmanga: String
+  title: String
+  umid: Int!
+}
+
+input CreateNoteInput {
+  _version: Int
+  content: String!
+  id: ID
+}
+
+input CreateSessionInput {
+  client: String!
+  created: Int!
+  expired: Int!
+  ip: String
+  sskey: String!
+}
+
+input CreateTaskInput {
+  _version: Int
+  desciption: String
+  id: ID
+  status: String
+  test: String!
+  title: String!
+}
+
+input DeleteBusStopsInput {
+  bsid: String!
+}
+
+input DeleteBustrackerInput {
+  uuid: Int!
+}
+
+input DeleteMangaDashboardInput {
+  umid: Int!
+}
+
+input DeleteNoteInput {
+  _version: Int
+  id: ID!
+}
+
+input DeleteSessionInput {
+  client: String!
+  sskey: String!
+}
+
+input DeleteTaskInput {
+  _version: Int
+  id: ID!
+}
+
+input ModelBooleanInput {
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  eq: Boolean
+  ne: Boolean
+}
+
+input ModelFloatInput {
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  between: [Float]
+  eq: Float
+  ge: Float
+  gt: Float
+  le: Float
+  lt: Float
+  ne: Float
+}
+
+input ModelIDInput {
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  between: [Int]
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+}
+
+input ModelNoteConditionInput {
+  and: [ModelNoteConditionInput]
+  content: ModelStringInput
+  not: ModelNoteConditionInput
+  or: [ModelNoteConditionInput]
+}
+
+input ModelNoteFilterInput {
+  and: [ModelNoteFilterInput]
+  content: ModelStringInput
+  id: ModelIDInput
+  not: ModelNoteFilterInput
+  or: [ModelNoteFilterInput]
+}
+
+input ModelSizeInput {
+  between: [Int]
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+}
+
+input ModelStringInput {
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+  size: ModelSizeInput
+}
+
+input ModelSubscriptionBooleanInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input ModelSubscriptionFloatInput {
+  between: [Float]
+  eq: Float
+  ge: Float
+  gt: Float
+  in: [Float]
+  le: Float
+  lt: Float
+  ne: Float
+  notIn: [Float]
+}
+
+input ModelSubscriptionIDInput {
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  in: [ID]
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+  notIn: [ID]
+}
+
+input ModelSubscriptionIntInput {
+  between: [Int]
+  eq: Int
+  ge: Int
+  gt: Int
+  in: [Int]
+  le: Int
+  lt: Int
+  ne: Int
+  notIn: [Int]
+}
+
+input ModelSubscriptionNoteFilterInput {
+  and: [ModelSubscriptionNoteFilterInput]
+  content: ModelSubscriptionStringInput
+  id: ModelSubscriptionIDInput
+  or: [ModelSubscriptionNoteFilterInput]
+}
+
+input ModelSubscriptionStringInput {
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  in: [String]
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+  notIn: [String]
+}
+
+input ModelSubscriptionTaskFilterInput {
+  and: [ModelSubscriptionTaskFilterInput]
+  description: ModelSubscriptionStringInput
+  id: ModelSubscriptionIDInput
+  or: [ModelSubscriptionTaskFilterInput]
+  status: ModelSubscriptionStringInput
+  test: ModelSubscriptionStringInput
+  title: ModelSubscriptionStringInput
+}
+
+input ModelTaskConditionInput {
+  and: [ModelTaskConditionInput]
+  description: ModelStringInput
+  not: ModelTaskConditionInput
+  or: [ModelTaskConditionInput]
+  status: ModelStringInput
+  test: ModelStringInput
+  title: ModelStringInput
+}
+
+input ModelTaskFilterInput {
+  and: [ModelTaskFilterInput]
+  description: ModelStringInput
+  id: ModelIDInput
+  not: ModelTaskFilterInput
+  or: [ModelTaskFilterInput]
+  status: ModelStringInput
+  test: ModelStringInput
+  title: ModelStringInput
+}
+
+input TableBooleanFilterInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input TableBusStopsFilterInput {
+  bsid: TableStringFilterInput
+  coordinate: TableIntFilterInput
+  des: TableStringFilterInput
+  line: TableStringFilterInput
+  title: TableStringFilterInput
+}
+
+input TableBustrackerFilterInput {
+  timeStamp: TableStringFilterInput
+  uuid: TableIntFilterInput
+}
+
+input TableFloatFilterInput {
+  between: [Float]
+  contains: Float
+  eq: Float
+  ge: Float
+  gt: Float
+  le: Float
+  lt: Float
+  ne: Float
+  notContains: Float
+}
+
+input TableIDFilterInput {
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+}
+
+input TableIntFilterInput {
+  between: [Int]
+  contains: Int
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+  notContains: Int
+}
+
+input TableMangaDashboardFilterInput {
+  access: TableBooleanFilterInput
+  desciption: TableStringFilterInput
+  episode: TableIntFilterInput
+  picture: TableStringFilterInput
+  statusofmanga: TableStringFilterInput
+  title: TableStringFilterInput
+  umid: TableIntFilterInput
+}
+
+input TableSessionFilterInput {
+  client: TableStringFilterInput
+  created: TableIntFilterInput
+  expired: TableIntFilterInput
+  ip: TableStringFilterInput
+  sskey: TableStringFilterInput
+}
+
+input TableStringFilterInput {
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+}
+
+input UpdateBusStopsInput {
+  bsid: String!
+  coordinate: [Int]
+  des: String
+  line: String
+  title: String
+}
+
+input UpdateBustrackerInput {
+  data: AWSJSON
+  timeStamp: String
+  uuid: Int!
+}
+
+input UpdateMangaDashboardInput {
+  access: Boolean
+  desciption: String
+  episode: Int
+  picture: String
+  statusofmanga: String
+  title: String
+  umid: Int!
+}
+
+input UpdateNoteInput {
+  _version: Int
+  content: String
+  id: ID!
+}
+
+input UpdateSessionInput {
+  client: String!
+  created: Int
+  expired: Int
+  ip: String
+  sskey: String!
+}
+
+input UpdateTaskInput {
+  _version: Int
+  description: String
+  id: ID!
+  status: String
+  test: String
+  title: String
+}
